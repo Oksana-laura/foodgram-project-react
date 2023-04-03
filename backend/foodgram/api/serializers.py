@@ -3,8 +3,8 @@ from django.core import exceptions as django_exceptions
 from django.db import transaction
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_base64.fields import Base64ImageField
-from recipes.models import (Favorite, Ingredient, Recipe, Recipe_ingredient,
-                            Shopping_cart, Tag)
+from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                            ShoppingCart, Tag)
 from rest_framework import serializers
 from users.models import Subscribe, User
 
@@ -185,7 +185,7 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
         source='ingredient.measurement_unit')
 
     class Meta:
-        model = Recipe_ingredient
+        model = RecipeIngredient
         fields = ('id', 'name',
                   'measurement_unit', 'amount')
 
@@ -218,7 +218,7 @@ class RecipeReadSerializer(serializers.ModelSerializer):
     def get_is_in_shopping_cart(self, obj):
         return (
             self.context.get('request').user.is_authenticated
-            and Shopping_cart.objects.filter(
+            and ShoppingCart.objects.filter(
                 user=self.context['request'].user,
                 recipe=obj).exists()
         )
@@ -229,7 +229,7 @@ class RecipeIngredientCreateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
 
     class Meta:
-        model = Recipe_ingredient
+        model = RecipeIngredient
         fields = ('id', 'amount')
 
 
@@ -282,8 +282,8 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def tags_and_ingredients_set(self, recipe, tags, ingredients):
         recipe.tags.set(tags)
-        Recipe_ingredient.objects.bulk_create(
-            [Recipe_ingredient(
+        RecipeIngredient.objects.bulk_create(
+            [RecipeIngredient(
                 recipe=recipe,
                 ingredient=Ingredient.objects.get(pk=ingredient['id']),
                 amount=ingredient['amount']
@@ -308,7 +308,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             'cooking_time', instance.cooking_time)
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
-        Recipe_ingredient.objects.filter(
+        RecipeIngredient.objects.filter(
             recipe=instance,
             ingredient__in=instance.ingredients.all()).delete()
         self.tags_and_ingredients_set(instance, tags, ingredients)
