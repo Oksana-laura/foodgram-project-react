@@ -19,7 +19,9 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(models.Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'author', 'in_favorites')
+    list_display = ('pk', 'name', 'author', 'in_favorites',
+                    'cooking_time', 'text', 'tags', 'image'
+                    )
     list_editable = (
         'name', 'cooking_time', 'text', 'tags',
         'image', 'author'
