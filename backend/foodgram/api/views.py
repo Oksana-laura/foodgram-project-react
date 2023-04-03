@@ -84,6 +84,7 @@ class UserViewSet(mixins.CreateModelMixin,
             return Response({'detail': 'Успешная отписка'},
                             status=status.HTTP_204_NO_CONTENT)
 
+        return None
 # -----------------------------------------------------------------------------
 #                            Приложение recipes
 # -----------------------------------------------------------------------------
@@ -145,6 +146,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'Рецепт успешно удален из избранного.'},
                             status=status.HTTP_204_NO_CONTENT)
 
+        return None
+    
     @action(detail=True, methods=['post', 'delete'],
             permission_classes=(IsAuthenticated,),
             pagination_class=None)
@@ -170,6 +173,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 {'detail': 'Рецепт успешно удален из списка покупок.'},
                 status=status.HTTP_204_NO_CONTENT
             )
+
+        return None
 
     @action(detail=False, methods=['get'],
             permission_classes=(IsAuthenticated,))
