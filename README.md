@@ -1,4 +1,4 @@
-![workflow](https://github.com/Oksana-laura/foodgram-project-react/actions/workflows/......yml/badge.svg)
+![workflow](https://github.com/Oksana-laura/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 
 # «Продуктовый помощник» Foodgram
 На этом сайте пользователи могут публиковать рецепты, подписываться на публикации других пользователей, добавлять понравившиеся рецепты в список «Избранное», а перед походом в магазин скачивать сводный список продуктов, необходимых для приготовления одного или нескольких выбранных блюд.
