@@ -147,7 +147,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_204_NO_CONTENT)
 
         return None
-    
+
     @action(detail=True, methods=['post', 'delete'],
             permission_classes=(IsAuthenticated,),
             pagination_class=None)
