@@ -36,7 +36,7 @@ class Tag(models.Model):
                 '^#([a-fA-F0-9]{6})',
                 message='Поле должно содержать HEX-код выбранного цвета.'
             ),
-    )
+        )
 
     )
     slug = models.SlugField(

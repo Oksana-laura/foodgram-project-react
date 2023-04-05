@@ -77,9 +77,9 @@ class UserViewSet(mixins.CreateModelMixin,
             Subscribe.objects.create(user=request.user, author=author)
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED)
-        
+
         return None
-    
+
     @action(detail=True, methods=('delete', ),
             permission_classes=(IsAuthenticated, ))
     def unsubscribe(self, request, **kwargs):
@@ -148,7 +148,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
         return None
-    
+
     @action(detail=True, methods=('delete', ),
             permission_classes=(IsAuthenticated, ))
     def delete_favorite(self, request, **kwargs):
@@ -179,13 +179,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
                                 status=status.HTTP_201_CREATED)
             return Response({'errors': 'Рецепт уже в списке покупок.'},
                             status=status.HTTP_400_BAD_REQUEST)
-        
+
         return None
 
     @action(detail=True, methods=('delete', ),
             permission_classes=(IsAuthenticated,),
             pagination_class=None)
-
     def delete_shopping_cart(self, request, **kwargs):
         recipe = get_object_or_404(Recipe, id=kwargs['pk'])
         if request.method == 'DELETE':
