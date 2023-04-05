@@ -14,7 +14,7 @@ class Ingredient(models.Model):
     )
 
     class Meta:
-        ordering = ['name']
+        ordering = ('name', )
         verbose_name = 'Ингридиент'
         verbose_name_plural = 'Ингридиенты'
 
@@ -31,12 +31,12 @@ class Tag(models.Model):
         'Цвет в HEX',
         max_length=7,
         null=True,
-        validators=[
+        validators=(
             RegexValidator(
                 '^#([a-fA-F0-9]{6})',
                 message='Поле должно содержать HEX-код выбранного цвета.'
-            )
-        ]
+            ),
+    )
 
     )
     slug = models.SlugField(
@@ -64,7 +64,7 @@ class Recipe(models.Model):
     )
     cooking_time = models.IntegerField(
         'Время приготовления, мин',
-        validators=[MinValueValidator(1)]
+        validators=(MinValueValidator(1), )
     )
     image = models.ImageField(
         'Картинка',
@@ -93,7 +93,7 @@ class Recipe(models.Model):
     )
 
     class Meta:
-        ordering = ['-pub_date']
+        ordering = ('-pub_date', )
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
@@ -116,18 +116,18 @@ class RecipeIngredient(models.Model):
     )
     amount = models.IntegerField(
         'Количество',
-        validators=[MinValueValidator(1)]
+        validators=(MinValueValidator(1), )
     )
 
     class Meta:
         verbose_name = 'Ингредиенты в рецепте'
         verbose_name_plural = 'Ингредиенты в рецептах'
-        constraints = [
+        constraints = (
             models.UniqueConstraint(
-                fields=['recipe', 'ingredient'],
+                fields=('recipe', 'ingredient',),
                 name='unique_combination'
-            )
-        ]
+            ),
+        )
 
     def __str__(self):
         return (f'{self.recipe.name}: '
@@ -153,12 +153,12 @@ class Favorite(models.Model):
     class Meta:
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
-        constraints = [
+        constraints = (
             models.UniqueConstraint(
-                fields=['user', 'recipe'],
+                fields=('user', 'recipe'),
                 name='unique_favorite'
-            )
-        ]
+            ),
+        )
 
     def __str__(self):
         return f'{self.user.username} - {self.recipe.name}'
@@ -181,12 +181,12 @@ class ShoppingCart(models.Model):
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзина'
-        constraints = [
+        constraints = (
             models.UniqueConstraint(
-                fields=['user', 'recipe'],
+                fields=('user', 'recipe'),
                 name='unique_shopping_cart'
-            )
-        ]
+            ),
+        )
 
     def __str__(self):
         return f'{self.user.username} - {self.recipe.name}'

@@ -30,7 +30,7 @@ class UserViewSet(mixins.CreateModelMixin,
                   mixins.RetrieveModelMixin,
                   viewsets.GenericViewSet):
     queryset = User.objects.all()
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAny, )
     pagination_class = CustomPaginator
 
     def get_serializer_class(self):
@@ -38,16 +38,16 @@ class UserViewSet(mixins.CreateModelMixin,
             return UserReadSerializer
         return UserCreateSerializer
 
-    @action(detail=False, methods=['get'],
+    @action(detail=False, methods=('get', ),
             pagination_class=None,
-            permission_classes=(IsAuthenticated,))
+            permission_classes=(IsAuthenticated, ))
     def me(self, request):
         serializer = UserReadSerializer(request.user)
         return Response(serializer.data,
                         status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['post'],
-            permission_classes=(IsAuthenticated,))
+    @action(detail=False, methods=('post', ),
+            permission_classes=(IsAuthenticated, ))
     def set_password(self, request):
         serializer = SetPasswordSerializer(request.user, data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -55,8 +55,8 @@ class UserViewSet(mixins.CreateModelMixin,
         return Response({'detail': 'Пароль успешно изменен!'},
                         status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=False, methods=['get'],
-            permission_classes=(IsAuthenticated,),
+    @action(detail=False, methods=('get', ),
+            permission_classes=(IsAuthenticated, ),
             pagination_class=CustomPaginator)
     def subscriptions(self, request):
         queryset = User.objects.filter(subscribing__user=request.user)
@@ -65,8 +65,8 @@ class UserViewSet(mixins.CreateModelMixin,
                                              context={'request': request})
         return self.get_paginated_response(serializer.data)
 
-    @action(detail=True, methods=['post', 'delete'],
-            permission_classes=(IsAuthenticated,))
+    @action(detail=True, methods=('post', ),
+            permission_classes=(IsAuthenticated, ))
     def subscribe(self, request, **kwargs):
         author = get_object_or_404(User, id=kwargs['pk'])
 
@@ -77,6 +77,13 @@ class UserViewSet(mixins.CreateModelMixin,
             Subscribe.objects.create(user=request.user, author=author)
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED)
+        
+        return None
+    
+    @action(detail=True, methods=('delete', ),
+            permission_classes=(IsAuthenticated, ))
+    def unsubscribe(self, request, **kwargs):
+        author = get_object_or_404(User, id=kwargs['pk'])
 
         if request.method == 'DELETE':
             get_object_or_404(Subscribe, user=request.user,
@@ -116,15 +123,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthorOrReadOnly, )
     filter_backends = (DjangoFilterBackend, )
     filterset_class = RecipeFilter
-    http_method_names = ['get', 'post', 'patch', 'create', 'delete']
+    http_method_names = ('get', 'post', 'patch', 'create', 'delete')
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
             return RecipeReadSerializer
         return RecipeCreateSerializer
 
-    @action(detail=True, methods=['post', 'delete'],
-            permission_classes=(IsAuthenticated,))
+    @action(detail=True, methods=('post', ),
+            permission_classes=(IsAuthenticated, ))
     def favorite(self, request, **kwargs):
         recipe = get_object_or_404(Recipe, id=kwargs['pk'])
 
@@ -140,6 +147,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response({'errors': 'Рецепт уже в избранном.'},
                             status=status.HTTP_400_BAD_REQUEST)
 
+        return None
+    
+    @action(detail=True, methods=('delete', ),
+            permission_classes=(IsAuthenticated, ))
+    def delete_favorite(self, request, **kwargs):
+        recipe = get_object_or_404(Recipe, id=kwargs['pk'])
+
         if request.method == 'DELETE':
             get_object_or_404(Favorite, user=request.user,
                               recipe=recipe).delete()
@@ -148,7 +162,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         return None
 
-    @action(detail=True, methods=['post', 'delete'],
+    @action(detail=True, methods=('post', ),
             permission_classes=(IsAuthenticated,),
             pagination_class=None)
     def shopping_cart(self, request, **kwargs):
@@ -165,7 +179,15 @@ class RecipeViewSet(viewsets.ModelViewSet):
                                 status=status.HTTP_201_CREATED)
             return Response({'errors': 'Рецепт уже в списке покупок.'},
                             status=status.HTTP_400_BAD_REQUEST)
+        
+        return None
 
+    @action(detail=True, methods=('delete', ),
+            permission_classes=(IsAuthenticated,),
+            pagination_class=None)
+
+    def delete_shopping_cart(self, request, **kwargs):
+        recipe = get_object_or_404(Recipe, id=kwargs['pk'])
         if request.method == 'DELETE':
             get_object_or_404(ShoppingCart, user=request.user,
                               recipe=recipe).delete()
@@ -176,8 +198,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         return None
 
-    @action(detail=False, methods=['get'],
-            permission_classes=(IsAuthenticated,))
+    @action(detail=False, methods=('get', ),
+            permission_classes=(IsAuthenticated, ))
     def download_shopping_cart(self, request, **kwargs):
         ingredients = (
             RecipeIngredient.objects
