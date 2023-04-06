@@ -21,9 +21,9 @@ services:
   frontend:
     image: oksanalaura/foodgram_frontend:latest
     volumes:
-      - ../frontend/:/result_build/
+      - ../frontend/:/app/result_build/
     depends_on:
-      - backend
+      - db
 
   nginx:
     image: nginx:1.19.3
@@ -38,6 +38,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - frontend
+      - backend
 
 
 volumes:
