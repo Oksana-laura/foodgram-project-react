@@ -11,8 +11,8 @@ services:
     image: oksanalaura/foodgram-backend:latest
     restart: always
     volumes:
-      - static_value:/backend/static/
-      - media_value:/backend/media/
+      - static_value:/app/static/
+      - media_value:/app/media/
     depends_on:
       - db
     env_file:
@@ -21,7 +21,7 @@ services:
   frontend:
     image: oksanalaura/foodgram_frontend:latest
     volumes:
-      - ../frontend/:/result_build/
+      - ../frontend/:/app/result_build/
     depends_on:
       - backend
 
