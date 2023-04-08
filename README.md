@@ -6,7 +6,7 @@
 ## Запуск проекта на удаленном сервере
 Склонируйте репозиторий и перейдите в него в командной строке:
 
-    https://github.com/Oksana-laura/backend_test_homework.git
+    https://github.com/Oksana-laura/foodgram-project-react.git
 
 Выполните вход на свой удаленный сервер
 
