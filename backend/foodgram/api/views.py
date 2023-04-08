@@ -78,7 +78,7 @@ class UserViewSet(mixins.CreateModelMixin,
             return Response(serializer.data,
                             status=status.HTTP_201_CREATED)
 
-        return None
+        return
 
     @action(detail=True, methods=('delete', ),
             permission_classes=(IsAuthenticated, ))
@@ -91,7 +91,7 @@ class UserViewSet(mixins.CreateModelMixin,
             return Response({'detail': 'Успешная отписка'},
                             status=status.HTTP_204_NO_CONTENT)
 
-        return None
+        return
 # -----------------------------------------------------------------------------
 #                            Приложение recipes
 # -----------------------------------------------------------------------------
@@ -147,7 +147,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response({'errors': 'Рецепт уже в избранном.'},
                             status=status.HTTP_400_BAD_REQUEST)
 
-        return None
+        return
 
     @action(detail=True, methods=('delete', ),
             permission_classes=(IsAuthenticated, ))
@@ -160,7 +160,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'Рецепт успешно удален из избранного.'},
                             status=status.HTTP_204_NO_CONTENT)
 
-        return None
+        return
 
     @action(detail=True, methods=('post', ),
             permission_classes=(IsAuthenticated,),
@@ -180,7 +180,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response({'errors': 'Рецепт уже в списке покупок.'},
                             status=status.HTTP_400_BAD_REQUEST)
 
-        return None
+        return
 
     @action(detail=True, methods=('delete', ),
             permission_classes=(IsAuthenticated,),
@@ -195,7 +195,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_204_NO_CONTENT
             )
 
-        return None
+        return
 
     @action(detail=False, methods=('get', ),
             permission_classes=(IsAuthenticated, ))
