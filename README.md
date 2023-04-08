@@ -43,12 +43,16 @@
     docker-compose exec web python3 manage.py createsuperuser
 
 Заполните базу данных ингредиентами: 
+    
     sudo docker-compose exec backend python manage.py load_ingredients
 
 Проект запущен и доступен по адресу: 
+    
     http://51.250.67.208/recipes
 
-Логин/пароль суперюзера: admin/j5r6c7f8
+Логин/пароль суперюзера:
+    
+    admin/j5r6c7f8
 
 ## Автор проекта
 - Оксана Лаура
