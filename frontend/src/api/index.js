@@ -287,7 +287,7 @@ class Api {
   }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/users/${author_id}/subscribe/`,
+      `/api/users/${author_id}/unsubscribe/`,
       {
         method: 'DELETE',
         headers: {
@@ -360,7 +360,7 @@ class Api {
   removeFromOrders ({ id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${id}/shopping_cart/`,
+      `/api/recipes/${id}/delete_shopping_cart/`,
       {
         method: 'DELETE',
         headers: {
