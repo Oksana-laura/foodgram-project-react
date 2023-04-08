@@ -148,7 +148,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         return None
 
-    @action(detail=True, methods=('post', 'delete' ),
+    @action(detail=True, methods=('post', 'delete'),
             permission_classes=(IsAuthenticated,),
             pagination_class=None)
     def shopping_cart(self, request, **kwargs):
