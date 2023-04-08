@@ -220,7 +220,7 @@ class Api {
   removeFromFavorites ({ id }) {
     const token = localStorage.getItem('token')
     return fetch(
-      `/api/recipes/${id}/favorite/`,
+      `/api/recipes/${id}/delete_favorite/`,
       {
         method: 'DELETE',
         headers: {

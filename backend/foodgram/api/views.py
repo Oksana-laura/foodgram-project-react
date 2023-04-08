@@ -85,9 +85,6 @@ class UserViewSet(mixins.CreateModelMixin,
         author = get_object_or_404(User, id=kwargs['pk'])
 
         if request.method == 'DELETE':
-            serializer = SubscribeAuthorSerializer(
-                author, data=request.data, context={"request": request})
-            serializer.is_valid(raise_exception=True)
             get_object_or_404(Subscribe, user=request.user,
                               author=author).delete()
             return Response({'detail': 'Успешная отписка'},
@@ -156,9 +153,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, id=kwargs['pk'])
 
         if request.method == 'DELETE':
-            serializer = RecipeSerializer(recipe, data=request.data,
-                                          context={"request": request})
-            serializer.is_valid(raise_exception=True)
             get_object_or_404(Favorite, user=request.user,
                               recipe=recipe).delete()
             return Response({'detail': 'Рецепт успешно удален из избранного.'},
@@ -190,9 +184,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def delete_shopping_cart(self, request, **kwargs):
         recipe = get_object_or_404(Recipe, id=kwargs['pk'])
         if request.method == 'DELETE':
-            serializer = RecipeSerializer(recipe, data=request.data,
-                                          context={"request": request})
-            serializer.is_valid(raise_exception=True)
             get_object_or_404(ShoppingCart, user=request.user,
                               recipe=recipe).delete()
             return Response(
