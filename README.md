@@ -6,15 +6,15 @@
 ## Запуск проекта на удаленном сервере
 Склонируйте репозиторий и перейдите в него в командной строке:
 
-    git clone https://github.com/Oksana-laura/yamdb_final.git
+    https://github.com/Oksana-laura/backend_test_homework.git
 
 Выполните вход на свой удаленный сервер
 
-Скопируйте подготовленные файлы docker-compose.yaml и nginx/default.conf из вашего проекта на сервер
+Скопируйте подготовленные файлы docker-compose.yml и nginx.conf из вашего проекта на сервер
 
-    scp docker-compose.yaml <username>@<host>/home/<username>/docker-compose.yaml
+    scp docker-compose.yml <username>@<host>/home/<username>/docker-compose.yaml
     sudo mkdir nginx
-    scp default.conf <username>@<host>/home/<username>/nginx/default.conf
+    scp nginx.conf <username>@<host>/home/<username>/nginx.conf
 
 Остановите службу nginx
 
@@ -42,6 +42,13 @@
 
     docker-compose exec web python3 manage.py createsuperuser
 
+Заполните базу данных ингредиентами: 
+    sudo docker-compose exec backend python manage.py load_ingredients
+
+Проект запущен и доступен по адресу: 
+    http://51.250.67.208/recipes
+
+Логин/пароль суперюзера: admin/j5r6c7f8
 
 ## Автор проекта
 - Оксана Лаура
